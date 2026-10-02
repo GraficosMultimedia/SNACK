@@ -1,0 +1,66 @@
+/* =========================================================
+   SNACKLICIOSOS · TICKET TÉRMICO 58 mm
+   Optimizado para POS-5890U-L / rollo de 58 mm.
+   ========================================================= */
+
+@media print{
+    @page{size:58mm auto;margin:0}
+
+    html,body{
+        width:58mm!important;
+        min-width:58mm!important;
+        max-width:58mm!important;
+        margin:0!important;
+        padding:0!important;
+        background:#fff!important;
+    }
+
+    body *{visibility:hidden!important}
+    #ticketModal,#ticketModal *{visibility:visible!important}
+
+    #ticketModal{
+        display:block!important;
+        position:static!important;
+        width:58mm!important;
+        min-width:58mm!important;
+        max-width:58mm!important;
+        padding:0!important;
+        margin:0!important;
+        background:#fff!important;
+    }
+
+    #ticketModal .ticketCard{
+        position:static!important;
+        width:58mm!important;
+        min-width:58mm!important;
+        max-width:58mm!important;
+        height:auto!important;
+        max-height:none!important;
+        padding:1.5mm!important;
+        margin:0!important;
+        border:0!important;
+        border-radius:0!important;
+        box-shadow:none!important;
+        background:#fff!important;
+        overflow:visible!important;
+    }
+
+    #ticketModal .ticket{
+        width:55mm!important;
+        min-width:55mm!important;
+        max-width:55mm!important;
+        margin:0 auto!important;
+        padding:0!important;
+        font-size:10px!important;
+        line-height:1.25!important;
+    }
+
+    #ticketModal .ticketHeader h1{font-size:17px!important}
+    #ticketModal .ticketMeta{font-size:8.5px!important}
+    #ticketModal .ticketProduct b{font-size:9px!important}
+    #ticketModal .ticketProduct span,
+    #ticketModal .ticketTopping{font-size:8px!important}
+    #ticketModal .ticketRow{font-size:9px!important}
+    #ticketModal .ticketRow b{font-size:10px!important}
+    #ticketModal .noPrint{display:none!important}
+}

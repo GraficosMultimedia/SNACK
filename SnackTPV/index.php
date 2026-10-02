@@ -29,16 +29,14 @@ unset($product);
 
 $name = config_value($pdo, 'nombre_negocio', APP_NAME);
 $logo = config_value($pdo, 'logo', '');
+$address = config_value($pdo, 'direccion', '');
+$phone = config_value($pdo, 'telefono', '');
 ?>
 <!doctype html>
 <html lang="es">
 <head>
-
-
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://colibriprint.com.mx/SnackTPV/menu/">
@@ -53,12 +51,10 @@ $logo = config_value($pdo, 'logo', '');
 <meta name="twitter:description" content="Antojitos que sacan sonrisas 💗">
 <meta name="twitter:image" content="https://colibriprint.com.mx/SnackTPV/menu/assets/social-preview.jpg">
 
-
-
-
 <title><?= h($name) ?> · TPV</title>
 <link rel="stylesheet" href="assets/css/tpv.css?v=22">
 <link rel="stylesheet" href="assets/css/cart.css?v=5">
+<link rel="stylesheet" href="assets/css/ticket-58mm.css?v=1">
 </head>
 <body>
 <header class="top">
@@ -78,10 +74,8 @@ $logo = config_value($pdo, 'logo', '');
     </aside>
 
     <section class="products"><div class="grid" id="productGrid"></div></section>
-
 </main>
 
-<!-- CART MODULE: popup flotante independiente del layout -->
 <div class="cartOverlay" id="cartOverlay" aria-hidden="true">
     <aside class="cartPopup" id="cartPopup" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
         <div class="cartHead">
@@ -169,8 +163,9 @@ $logo = config_value($pdo, 'logo', '');
     <div class="modalCard ticketCard">
         <button class="x noPrint" data-close type="button">×</button>
         <div id="ticketContent"></div>
-        <div class="printHint noPrint">Selecciona tu impresora térmica en el diálogo de impresión · Formato 80 mm</div><div class="ticketActions noPrint">
-            <button class="primary" id="printTicket" type="button">🖨️ IMPRIMIR TICKET TÉRMICO</button>
+        <div class="printHint noPrint">Selecciona tu impresora térmica en el diálogo de impresión · Formato 58 mm</div>
+        <div class="ticketActions noPrint">
+            <button class="primary" id="printTicket58" type="button">🖨️ IMPRIMIR TICKET 58 MM</button>
             <button class="secondaryBtn" id="ticketNewSale" type="button">NUEVA VENTA</button>
         </div>
     </div>
@@ -180,10 +175,16 @@ $logo = config_value($pdo, 'logo', '');
 window.TPV = {
     products: <?= json_encode($products, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>,
     toppings: <?= json_encode($toppings, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>,
-    business: { name: <?= json_encode($name, JSON_UNESCAPED_UNICODE) ?> }
+    business: {
+        name: <?= json_encode($name, JSON_UNESCAPED_UNICODE) ?>,
+        logo: <?= json_encode($logo, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>,
+        address: <?= json_encode($address, JSON_UNESCAPED_UNICODE) ?>,
+        phone: <?= json_encode($phone, JSON_UNESCAPED_UNICODE) ?>
+    }
 };
 </script>
 <script src="assets/js/cart.js?v=5"></script>
 <script src="assets/js/tpv.js?v=23"></script>
+<script src="assets/js/ticket-print-58mm.js?v=1"></script>
 </body>
 </html>
