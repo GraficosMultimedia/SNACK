@@ -1,0 +1,48 @@
+[06-Sep-2026 13:55:36 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 13:55:39 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 13:55:41 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 13:57:13 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 14:02:29 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 14:02:31 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 14:04:36 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
+[06-Sep-2026 14:05:19 America/Chihuahua] PHP Fatal error:  Uncaught PDOException: SQLSTATE[HY000] [1045] Access denied for user 'colibrip_siscar'@'localhost' (using password: YES) in /home2/colibrip/public_html/SnackTPV/includes/db.php:8
+Stack trace:
+#0 /home2/colibrip/public_html/SnackTPV/includes/db.php(8): PDO->__construct('mysql:host=loca...', 'colibrip_siscar', Object(SensitiveParameterValue), Array)
+#1 /home2/colibrip/public_html/SnackTPV/admin/index.php(4): db()
+#2 {main}
+  thrown in /home2/colibrip/public_html/SnackTPV/includes/db.php on line 8
