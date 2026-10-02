@@ -3,22 +3,6 @@
 (function(){
     'use strict';
 
-    function utf8ToBase64(text){
-        const bytes = new TextEncoder().encode(String(text || ''));
-        let binary = '';
-        const chunk = 0x8000;
-        for(let i = 0; i < bytes.length; i += chunk){
-            binary += String.fromCharCode(...bytes.subarray(i, i + chunk));
-        }
-        return btoa(binary);
-    }
-
-    function sendToSnackPos(ticketText){
-        const data = utf8ToBase64(ticketText);
-        const uri = 'snackpos://print?data=' + encodeURIComponent(data);
-        window.location.href = uri;
-    }
-
     function printTicket58mm(){
         if (typeof buildTicket !== 'function') {
             alert('No se pudo preparar el ticket.');
@@ -99,7 +83,9 @@
             }
         `;
 
-        // Si SNACK POS V4 expone el puente JavaScript, conservarlo.
+        // Android SNACK POS V4:
+        // El TPV entrega el ticket REAL (HTML + CSS) al puente Bluetooth.
+        // En navegador normal se conserva window.print().
         if (window.SnackPrinter &&
             typeof window.SnackPrinter.printTicket === 'function') {
             try {
@@ -112,27 +98,6 @@
             }
         }
 
-        // Android Chrome: enviar el ticket real a SNACK POS V4.
-        // Esto evita que Android abra las impresoras Wi-Fi/IP del sistema.
-        const isAndroid = /Android/i.test(navigator.userAgent || '');
-        if(isAndroid){
-            try{
-                const ticketText = ticket.innerText || ticket.textContent || '';
-                if(!ticketText.trim()){
-                    alert('El ticket está vacío.');
-                    return;
-                }
-
-                sendToSnackPos(ticketText);
-                return;
-            }catch(e){
-                console.error('SNACK POS: no se pudo crear el enlace Bluetooth', e);
-                alert('No se pudo enviar el ticket a SNACK POS.');
-                return;
-            }
-        }
-
-        // PC / navegador normal: conservar impresión convencional.
         const printWindow = window.open(
             '',
             'snackliciosos_ticket_58mm',
