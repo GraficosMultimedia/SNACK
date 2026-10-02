@@ -1,4 +1,4 @@
-/* SNACKLICIOSOS · IMPRESIÓN POS-5890U-L / 58 mm */
+/* SNACKLICIOSOS · IMPRESIÓN POS-5890U-L / 58 mm · Android Bluetooth V4 */
 
 (function(){
     'use strict';
@@ -14,17 +14,6 @@
         const ticket = document.querySelector('#ticketContent .ticket');
         if(!ticket){
             alert('No se encontró el contenido del ticket.');
-            return;
-        }
-
-        const printWindow = window.open(
-            '',
-            'snackliciosos_ticket_58mm',
-            'width=330,height=760,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes'
-        );
-
-        if(!printWindow){
-            alert('El navegador bloqueó la ventana de impresión. Permite ventanas emergentes para este sitio.');
             return;
         }
 
@@ -93,6 +82,32 @@
                 border-top:1px dashed #777;color:#111;font-weight:800;font-size:9px;
             }
         `;
+
+        // Android SNACK POS V4:
+        // El TPV entrega el ticket REAL (HTML + CSS) al puente Bluetooth.
+        // En navegador normal se conserva window.print().
+        if (window.SnackPrinter &&
+            typeof window.SnackPrinter.printTicket === 'function') {
+            try {
+                window.SnackPrinter.printTicket(ticket.outerHTML, css);
+                return;
+            } catch (e) {
+                console.error('SNACK POS: error enviando ticket a Android', e);
+                alert('No se pudo enviar el ticket a la impresora Bluetooth.');
+                return;
+            }
+        }
+
+        const printWindow = window.open(
+            '',
+            'snackliciosos_ticket_58mm',
+            'width=330,height=760,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes'
+        );
+
+        if(!printWindow){
+            alert('El navegador bloqueó la ventana de impresión. Permite ventanas emergentes para este sitio.');
+            return;
+        }
 
         printWindow.document.open();
         printWindow.document.write(
