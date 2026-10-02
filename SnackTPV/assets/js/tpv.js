@@ -165,6 +165,10 @@ function toggleTopping(id){
     if(exists){
         selectedToppings = selectedToppings.filter(x => Number(x.id) !== Number(id));
     } else {
+        if(selectedToppings.length >= max){
+            pulseToppingGrid();
+            return;
+        }
         selectedToppings.push({id:Number(t.id), nombre:String(t.nombre), precio:Number(t.precio)});
     }
     renderSelectedToppings();
@@ -187,7 +191,6 @@ function renderSelectedToppings(){
 
     const count = selectedToppings.length;
     const free = freeToppingCount(count, selected, 1);
-    const extra = selectedToppings.reduce((sum,t) => sum + Number(t.precio || 0), 0);
     const chargedExtra = selectedToppings.reduce((sum,t,i) => sum + (i < free ? 0 : Number(t.precio || 0)), 0);
     const total = Number(selected?.precio || 0) + chargedExtra;
 
@@ -215,10 +218,11 @@ function renderSelectedToppings(){
         const index = selectedToppings.findIndex(x => Number(x.id) === id);
         const isSelected = index >= 0;
         btn.classList.toggle('selected', isSelected);
-        btn.classList.remove('disabled');
         const price = $('.toppingOptionPrice', btn);
         if(price){
-            price.textContent = isSelected && index < free ? 'GRATIS' : '+' + money(Number(T.find(x=>Number(x.id)===id)?.precio || 0));
+            price.textContent = isSelected && index < free
+                ? 'GRATIS'
+                : '+' + money(Number(T.find(x=>Number(x.id)===id)?.precio || 0));
         }
     });
 
@@ -323,29 +327,70 @@ function updateChange(){
     $('#confirmCash').disabled = cash < total || !window.SnackCart?.getItems().length;
 }
 
+/* =========================================================
+   TICKET
+   El encabezado se genera aquí desde Administración > Configuración.
+   ========================================================= */
 function buildTicket(){
     if(!lastSale) return;
+
     const s = lastSale;
+    const business = window.TPV?.business || {};
+
+    const businessName = business.name || s.businessName || 'Snackliciosos';
+    const businessLogo = business.logo || '';
+    const businessAddress = business.address || '';
+    const businessPhone = business.phone || '';
+
+    const logoHtml = businessLogo
+        ? `<img class="ticketLogoImg" src="${esc(businessLogo)}" alt="${esc(businessName)}">`
+        : `<div class="ticketLogo">🍓</div>`;
+
     let html = `<div class="ticket">
-        <div class="ticketHeader"><div class="ticketLogo">🍓</div><h1>${esc(s.businessName)}</h1><div class="ticketTitle">TICKET DE VENTA</div></div>
-        <div class="ticketMeta"><span>Folio</span><b>${esc(s.folio)}</b><span>Fecha</span><b>${new Date(s.date).toLocaleString('es-MX')}</b></div>
+        <div class="ticketHeader">
+            ${logoHtml}
+            <h1>${esc(businessName)}</h1>
+            ${businessAddress ? `<div class="ticketBusinessData">${esc(businessAddress)}</div>` : ''}
+            ${businessPhone ? `<div class="ticketBusinessData">Tel. ${esc(businessPhone)}</div>` : ''}
+            <div class="ticketTitle">TICKET DE VENTA</div>
+        </div>
+        <div class="ticketMeta">
+            <span>Folio</span><b>${esc(s.folio)}</b>
+            <span>Fecha</span><b>${new Date(s.date).toLocaleString('es-MX')}</b>
+        </div>
         <div class="ticketDivider"></div>`;
 
     s.items.forEach(x => {
-        const free = freeToppingCount(x.toppings.length, P.find(p=>Number(p.id)===Number(x.product_id)) || selected);
-        html += `<div class="ticketProduct"><div><b>${esc(x.nombre)}</b><span>${x.cantidad} × ${money(x.precio)}</span></div><strong>${money(window.SnackCart.itemTotal(x))}</strong></div>`;
+        const free = freeToppingCount(
+            x.toppings.length,
+            P.find(p => Number(p.id) === Number(x.product_id)) || selected
+        );
+
+        html += `<div class="ticketProduct">
+            <div>
+                <b>${esc(x.nombre)}</b>
+                <span>${x.cantidad} × ${money(x.precio)}</span>
+            </div>
+            <strong>${money(window.SnackCart.itemTotal(x))}</strong>
+        </div>`;
+
         x.toppings.forEach((t,i) => {
             html += `<div class="ticketTopping">↳ ${esc(t.nombre)} <span>${i < free ? 'GRATIS' : '+'+money(t.precio)}</span></div>`;
         });
     });
 
     const transfer = s.metodo_pago === 'transferencia';
+
     html += `<div class="ticketDivider"></div>
         <div class="ticketRow"><span>TOTAL</span><b>${money(s.total)}</b></div>
         <div class="ticketRow"><span>FORMA DE PAGO</span><b>${transfer ? 'TRANSFERENCIA' : 'EFECTIVO'}</b></div>
-        ${transfer ? '' : `<div class="ticketRow"><span>EFECTIVO</span><b>${money(s.efectivo)}</b></div><div class="ticketRow changeRow"><span>CAMBIO</span><b>${money(s.cambio)}</b></div>`}
+        ${transfer ? '' : `
+            <div class="ticketRow"><span>EFECTIVO</span><b>${money(s.efectivo)}</b></div>
+            <div class="ticketRow changeRow"><span>CAMBIO</span><b>${money(s.cambio)}</b></div>
+        `}
         <div class="ticketThanks">¡Gracias por tu compra! ✨</div>
     </div>`;
+
     $('#ticketContent').innerHTML = html;
 }
 
@@ -358,7 +403,7 @@ function printTicket(){
     if(!ticket) return;
     const printWindow = window.open('', 'snackliciosos_ticket_80mm', 'width=420,height=800,menubar=no,toolbar=no,location=no,status=no,resizable=yes,scrollbars=yes');
     if(!printWindow){ alert('El navegador bloqueó la ventana de impresión. Permite ventanas emergentes para este sitio.'); return; }
-    const css = `@page{size:80mm auto;margin:0;}*{box-sizing:border-box;}html,body{margin:0!important;padding:0!important;width:80mm!important;background:#fff!important;}body{font-family:"Courier New",monospace;color:#111}.thermal-sheet{width:80mm;padding:2mm}.ticket{width:76mm;margin:auto;font-size:11px;line-height:1.28}.ticketHeader{text-align:center}.ticketLogo{width:34px;height:34px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#ffe7f1;font-size:19px}.ticketHeader h1{margin:4px 0 0;font-family:Arial,sans-serif;font-size:19px;color:#f20b78}.ticketTitle{font-size:9px;font-weight:900}.ticketMeta{display:grid;grid-template-columns:auto 1fr;gap:2px 7px;margin-top:7px;font-size:9px}.ticketMeta b{text-align:right}.ticketDivider{border-top:1px dashed #666;margin:8px 0}.ticketProduct{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:5px}.ticketProduct div{display:flex;flex-direction:column}.ticketProduct b{font-size:10px}.ticketProduct span,.ticketTopping{font-size:8.5px}.ticketTopping{padding-left:9px;display:flex;justify-content:space-between}.ticketTopping span{font-weight:900;color:#16834d}.ticketRow{display:flex;justify-content:space-between;gap:8px;margin:4px 0;font-size:10px}.ticketRow b{font-size:11px}.changeRow{padding:5px;background:#eaf8f0}.ticketThanks{text-align:center;margin-top:11px;padding-top:8px;border-top:1px dashed #777;color:#f20b78;font-weight:800}`;
+    const css = `@page{size:80mm auto;margin:0;}*{box-sizing:border-box;}html,body{margin:0!important;padding:0!important;width:80mm!important;background:#fff!important;}body{font-family:"Courier New",monospace;color:#111}.thermal-sheet{width:80mm;padding:2mm}.ticket{width:76mm;margin:auto;font-size:11px;line-height:1.28}.ticketHeader{text-align:center}.ticketLogo{width:34px;height:34px;margin:auto;border-radius:50%;display:grid;place-items:center;background:#ffe7f1;font-size:19px}.ticketLogoImg{display:block;width:28mm;max-width:28mm;max-height:18mm;object-fit:contain;margin:0 auto 3px}.ticketHeader h1{margin:4px 0 0;font-family:Arial,sans-serif;font-size:19px;color:#f20b78}.ticketBusinessData{margin-top:2px;font-size:8.5px;line-height:1.2;overflow-wrap:anywhere}.ticketTitle{font-size:9px;font-weight:900}.ticketMeta{display:grid;grid-template-columns:auto 1fr;gap:2px 7px;margin-top:7px;font-size:9px}.ticketMeta b{text-align:right}.ticketDivider{border-top:1px dashed #666;margin:8px 0}.ticketProduct{display:grid;grid-template-columns:1fr auto;gap:7px;margin-top:5px}.ticketProduct div{display:flex;flex-direction:column}.ticketProduct b{font-size:10px}.ticketProduct span,.ticketTopping{font-size:8.5px}.ticketTopping{padding-left:9px;display:flex;justify-content:space-between}.ticketTopping span{font-weight:900;color:#16834d}.ticketRow{display:flex;justify-content:space-between;gap:8px;margin:4px 0;font-size:10px}.ticketRow b{font-size:11px}.changeRow{padding:5px;background:#eaf8f0}.ticketThanks{text-align:center;margin-top:11px;padding-top:8px;border-top:1px dashed #777;color:#f20b78;font-weight:800}`;
     printWindow.document.open();
     printWindow.document.write(`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Ticket Snackliciosos</title><style>${css}</style></head><body><main class="thermal-sheet">${ticket.outerHTML}</main></body></html>`);
     printWindow.document.close();

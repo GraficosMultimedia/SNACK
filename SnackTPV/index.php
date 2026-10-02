@@ -37,7 +37,6 @@ $phone = config_value($pdo, 'telefono', '');
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://colibriprint.com.mx/SnackTPV/menu/">
 <meta property="og:title" content="Snackliciosos · Menú">
@@ -50,11 +49,10 @@ $phone = config_value($pdo, 'telefono', '');
 <meta name="twitter:title" content="Snackliciosos · Menú">
 <meta name="twitter:description" content="Antojitos que sacan sonrisas 💗">
 <meta name="twitter:image" content="https://colibriprint.com.mx/SnackTPV/menu/assets/social-preview.jpg">
-
 <title><?= h($name) ?> · TPV</title>
 <link rel="stylesheet" href="assets/css/tpv.css?v=22">
 <link rel="stylesheet" href="assets/css/cart.css?v=5">
-<link rel="stylesheet" href="assets/css/ticket-58mm.css?v=1">
+<link rel="stylesheet" href="assets/css/ticket-58mm.css?v=2">
 </head>
 <body>
 <header class="top">
@@ -72,17 +70,13 @@ $phone = config_value($pdo, 'telefono', '');
             <button type="button" class="cat <?= $i === 0 ? 'active' : '' ?>" data-cat="<?= (int)$c['id'] ?>"><?= h($c['nombre']) ?></button>
         <?php endforeach; ?>
     </aside>
-
     <section class="products"><div class="grid" id="productGrid"></div></section>
 </main>
 
 <div class="cartOverlay" id="cartOverlay" aria-hidden="true">
     <aside class="cartPopup" id="cartPopup" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
         <div class="cartHead">
-            <div>
-                <span class="cartEyebrow">PEDIDO ACTUAL</span>
-                <h2 id="cartTitle">Tu pedido</h2>
-            </div>
+            <div><span class="cartEyebrow">PEDIDO ACTUAL</span><h2 id="cartTitle">Tu pedido</h2></div>
             <button id="closeCart" type="button" aria-label="Cerrar carrito">×</button>
         </div>
         <div id="cartItems" class="cartItems"></div>
@@ -96,9 +90,7 @@ $phone = config_value($pdo, 'telefono', '');
 <div class="modal" id="productModal">
     <div class="modalCard">
         <button class="x" data-close type="button">×</button>
-        <h2 id="mName"></h2>
-        <p id="mDesc"></p>
-        <div id="toppingsBox"></div>
+        <h2 id="mName"></h2><p id="mDesc"></p><div id="toppingsBox"></div>
     </div>
 </div>
 
@@ -110,37 +102,27 @@ $phone = config_value($pdo, 'telefono', '');
             <h2>¿Cómo recibiste el pago?</h2>
             <div class="bigTotal" id="payTotal">$0.00</div>
         </div>
-
         <div class="payCascade" id="payCascade">
             <button class="payStep" type="button" data-method="efectivo" aria-expanded="false">
                 <span class="payStepIcon">💵</span>
-                <span><b>Efectivo</b><small>Recibe dinero y calcula el cambio</small></span>
-                <span class="payChevron">⌄</span>
+                <span><b>Efectivo</b><small>Recibe dinero y calcula el cambio</small></span><span class="payChevron">⌄</span>
             </button>
             <div class="payPanel" data-panel="efectivo">
                 <label class="cashLabel" for="cash">Efectivo recibido</label>
                 <input id="cash" type="number" min="0" step="0.01" inputmode="decimal" placeholder="$0.00">
                 <div class="quick">
-                    <button type="button" data-cash="50">$50</button>
-                    <button type="button" data-cash="100">$100</button>
-                    <button type="button" data-cash="200">$200</button>
-                    <button type="button" data-cash="500">$500</button>
+                    <button type="button" data-cash="50">$50</button><button type="button" data-cash="100">$100</button>
+                    <button type="button" data-cash="200">$200</button><button type="button" data-cash="500">$500</button>
                 </div>
                 <div class="change">Cambio <b id="change">$0.00</b></div>
                 <button class="primary" id="confirmCash" type="button" disabled>✓ CONFIRMAR COBRO</button>
             </div>
-
             <button class="payStep" type="button" data-method="transferencia" aria-expanded="false">
                 <span class="payStepIcon">🏦</span>
-                <span><b>Transferencia</b><small>El dinero no entra físicamente a caja</small></span>
-                <span class="payChevron">⌄</span>
+                <span><b>Transferencia</b><small>El dinero no entra físicamente a caja</small></span><span class="payChevron">⌄</span>
             </button>
             <div class="payPanel" data-panel="transferencia">
-                <div class="transferNotice">
-                    <div class="transferIcon">📲</div>
-                    <strong>Pago por transferencia</strong>
-                    <span>Confirma que recibiste la transferencia antes de registrar la venta.</span>
-                </div>
+                <div class="transferNotice"><div class="transferIcon">📲</div><strong>Pago por transferencia</strong><span>Confirma que recibiste la transferencia antes de registrar la venta.</span></div>
                 <button class="primary transferConfirm" id="confirmTransfer" type="button">✓ CONFIRMAR TRANSFERENCIA</button>
             </div>
         </div>
@@ -149,9 +131,7 @@ $phone = config_value($pdo, 'telefono', '');
 
 <div class="modal" id="doneModal">
     <div class="modalCard done">
-        <div class="successIcon">✓</div>
-        <h2>¡Venta realizada!</h2>
-        <p id="doneText"></p>
+        <div class="successIcon">✓</div><h2>¡Venta realizada!</h2><p id="doneText"></p>
         <div class="doneActions">
             <button class="primary" id="viewTicket" type="button">🧾 VER TICKET</button>
             <button class="secondaryBtn" id="newSale" type="button">NUEVA VENTA</button>
@@ -184,7 +164,7 @@ window.TPV = {
 };
 </script>
 <script src="assets/js/cart.js?v=5"></script>
-<script src="assets/js/tpv.js?v=23"></script>
-<script src="assets/js/ticket-print-58mm.js?v=1"></script>
+<script src="assets/js/tpv.js?v=24"></script>
+<script src="assets/js/ticket-print-58mm.js?v=2"></script>
 </body>
 </html>

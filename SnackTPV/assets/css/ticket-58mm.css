@@ -1,7 +1,25 @@
-/* =========================================================
-   SNACKLICIOSOS · TICKET TÉRMICO 58 mm
-   Optimizado para POS-5890U-L / rollo de 58 mm.
-   ========================================================= */
+/* SNACKLICIOSOS · TICKET 58 mm
+   POS-5890U-L / rollo de 58 mm
+*/
+
+.ticketBusinessData{
+    margin-top:3px;
+    font-size:10px;
+    line-height:1.25;
+    color:#222;
+    overflow-wrap:anywhere;
+}
+
+.ticketLogoImg{
+    display:block;
+    width:64px;
+    height:64px;
+    max-width:64px;
+    max-height:64px;
+    object-fit:contain;
+    margin:0 auto 6px;
+    border-radius:8px;
+}
 
 @media print{
     @page{size:58mm auto;margin:0}
@@ -15,34 +33,19 @@
         background:#fff!important;
     }
 
-    body *{visibility:hidden!important}
-    #ticketModal,#ticketModal *{visibility:visible!important}
-
-    #ticketModal{
-        display:block!important;
-        position:static!important;
+    #ticketModal,
+    #ticketModal .ticketCard{
         width:58mm!important;
         min-width:58mm!important;
         max-width:58mm!important;
-        padding:0!important;
-        margin:0!important;
-        background:#fff!important;
     }
 
     #ticketModal .ticketCard{
-        position:static!important;
-        width:58mm!important;
-        min-width:58mm!important;
-        max-width:58mm!important;
-        height:auto!important;
-        max-height:none!important;
         padding:1.5mm!important;
         margin:0!important;
         border:0!important;
         border-radius:0!important;
         box-shadow:none!important;
-        background:#fff!important;
-        overflow:visible!important;
     }
 
     #ticketModal .ticket{
@@ -53,10 +56,19 @@
         padding:0!important;
         font-size:10px!important;
         line-height:1.25!important;
+        overflow-wrap:anywhere;
+    }
+
+    #ticketModal .ticketLogoImg{
+        width:28mm!important;
+        max-width:28mm!important;
+        max-height:18mm!important;
+        height:auto!important;
     }
 
     #ticketModal .ticketHeader h1{font-size:17px!important}
-    #ticketModal .ticketMeta{font-size:8.5px!important}
+    #ticketModal .ticketBusinessData{font-size:8px!important}
+    #ticketModal .ticketMeta{font-size:8px!important}
     #ticketModal .ticketProduct b{font-size:9px!important}
     #ticketModal .ticketProduct span,
     #ticketModal .ticketTopping{font-size:8px!important}
